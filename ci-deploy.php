@@ -170,8 +170,8 @@ function main() {
 		$http_deploy_post_data["DEPLOY_KEY"] = "********";
 		unset($http_deploy_post_data["DEPLOY_KEY"]);
 
-		fflush(STDERR);
-		print_r($http_deploy_post_data);
+		$data = print_r($http_deploy_post_data, true);
+		fwrite(STDERR, "$data\n");
 
 		exit(1);
 	}
