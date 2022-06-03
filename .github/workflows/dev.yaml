@@ -1,0 +1,22 @@
+name: Build, Test and Deploy (nightly)
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+env:
+  NAPSW_PROJECT: webhook-test
+  NAPSW_DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Deploy
+      run: ./ci-deploy.php
