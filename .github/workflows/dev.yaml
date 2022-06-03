@@ -7,7 +7,7 @@ on:
     branches: [ dev ]
 
 env:
-  NAPSW_PROJECT: webhook-test
+  NAPSW_PROJECT: testing
   NAPSW_DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 
 jobs:
