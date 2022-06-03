@@ -113,10 +113,11 @@ function get_deploy_meta_data() {
 function main() {
 	$meta = get_deploy_meta_data();
 
-	$http_deploy_url = "https://deploy.nap.software/project/".$meta["project"]."/";
+	$http_deploy_url = "https://deploy.nap.software/";
 	$http_deploy_post_data = [
 		"GIT_BRANCH" => $meta["branch"],
 		"GIT_HEAD" => $meta["HEAD"],
+		"PROJECT" => $meta["project"],
 		"DEPLOY_KEY" => read_env_var("NAPSW_DEPLOY_KEY"),
 		"DEPLOY_SCRIPT_VER" => \napsw\DEPLOY_SCRIPT_VER,
 		"DEPLOY_SCRIPT_HASH" => get_sha256_hash(__FILE__)
