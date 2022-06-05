@@ -75,7 +75,7 @@ function get_upload_files() {
 		$entry_path = __DIR__."/ci.upload-files/$entry";
 
 		array_push($files, [
-			"post_name" => md5(str_replace(".", "__dot__", $entry)),
+			"post_name" => md5($entry),
 			"file_name" => $entry,
 			"path"      => $entry_path,
 			"checksum"  => get_sha256_hash($entry_path)
