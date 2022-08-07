@@ -2,7 +2,7 @@
 <?php
 
 /**
- * Github Actions Deploy Script v1.1.0
+ * Github Actions Deploy Script v1.1.1
  *
  * Environment variables:
  *
@@ -13,7 +13,7 @@
 
 namespace napsw;
 
-define("napsw\\DEPLOY_SCRIPT_VER", "1.1.0");
+define("napsw\\DEPLOY_SCRIPT_VER", "1.1.1");
 
 function debug() {
 	foreach (func_get_args() as $arg) {
@@ -147,6 +147,10 @@ function main() {
 			$file["post_name"]
 		);
 	}
+
+	$http_deploy_post_data["UPLOAD_FILES"] = implode(
+		";", $http_deploy_post_data["UPLOAD_FILES"]
+	);
 
 	$ch = curl_init();
 
