@@ -2,12 +2,18 @@
 <?php
 
 /**
- * Github Actions Deploy Script v1.0.0
+ * Github Actions Deploy Script v1.1.0
+ *
+ * Environment variables:
+ *
+ * NAPSW_PROJECT => Project name
+ * NAPSW_DEPLOY_KEY => Deploy key
+ * (NAPSW_GIT_BRANCH) => Optional git branch name override
  */
 
 namespace napsw;
 
-define("napsw\\DEPLOY_SCRIPT_VER", "1.0.0");
+define("napsw\\DEPLOY_SCRIPT_VER", "1.1.0");
 
 function debug() {
 	foreach (func_get_args() as $arg) {
@@ -75,7 +81,7 @@ function get_upload_files() {
 		$entry_path = __DIR__."/ci.upload-files/$entry";
 
 		array_push($files, [
-			"post_name" => md5($entry),
+			"post_name" => md5($entry_path),
 			"file_name" => $entry,
 			"path"      => $entry_path,
 			"checksum"  => get_sha256_hash($entry_path)
@@ -119,7 +125,8 @@ function main() {
 		"GIT_HEAD" => $meta["HEAD"],
 		"DEPLOY_KEY" => read_env_var("NAPSW_DEPLOY_KEY"),
 		"DEPLOY_SCRIPT_VER" => \napsw\DEPLOY_SCRIPT_VER,
-		"DEPLOY_SCRIPT_HASH" => get_sha256_hash(__FILE__)
+		"DEPLOY_SCRIPT_HASH" => get_sha256_hash(__FILE__),
+		"UPLOAD_FILES" => []
 	];
 
 	foreach ($meta["files"] as $file) {
@@ -134,6 +141,11 @@ function main() {
 
 			$http_deploy_post_data[$file["post_name"]."_$key"] = $value;
 		}
+
+		array_push(
+			$http_deploy_post_data["UPLOAD_FILES"],
+			$file["post_name"]
+		);
 	}
 
 	$ch = curl_init();
@@ -170,8 +182,8 @@ function main() {
 		$http_deploy_post_data["DEPLOY_KEY"] = "********";
 		unset($http_deploy_post_data["DEPLOY_KEY"]);
 
-		$data = print_r($http_deploy_post_data, true);
-		fwrite(STDERR, "$data\n");
+		fflush(STDERR);
+		print_r($http_deploy_post_data);
 
 		exit(1);
 	}
