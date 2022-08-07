@@ -2,7 +2,7 @@
 <?php
 
 /**
- * Github Actions Deploy Script v1.1.1
+ * Github Actions Deploy Script v1.1.2
  *
  * Environment variables:
  *
@@ -13,7 +13,7 @@
 
 namespace napsw;
 
-define("napsw\\DEPLOY_SCRIPT_VER", "1.1.1");
+define("napsw\\DEPLOY_SCRIPT_VER", "1.1.2");
 
 function debug() {
 	foreach (func_get_args() as $arg) {
@@ -187,6 +187,9 @@ function main() {
 		unset($http_deploy_post_data["DEPLOY_KEY"]);
 
 		fflush(STDERR);
+		fflush(STDOUT);
+
+		usleep(500E3); // wait 500ms
 		print_r($http_deploy_post_data);
 
 		exit(1);
