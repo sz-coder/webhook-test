@@ -9,6 +9,7 @@ on:
 env:
   NAPSW_PROJECT: webhook-test
   NAPSW_DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+  NAPSW_TEST_PATH: ~/test.php
 
 jobs:
   build:
@@ -17,6 +18,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Deploy
-      run: ./ci-deploy.php
+    
+    - name: Print env
+      run: env
